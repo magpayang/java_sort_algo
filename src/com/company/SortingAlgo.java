@@ -1,6 +1,6 @@
 package com.company;
 
-import org.jetbrains.annotations.NotNull;
+import javax.lang.model.type.NullType;
 
 public class SortingAlgo {
     public int[] BubleSort(int[] input_array){
@@ -19,7 +19,7 @@ public class SortingAlgo {
         }
         return input_array;
     }
-    public int[] SelectionSort(int @NotNull [] input_array){
+    public int[] SelectionSort(int [] input_array){
         for (int idx = 0; idx < input_array.length - 1; ++idx){
             int current = 0;
             int current_idx = 0;
@@ -77,5 +77,48 @@ public class SortingAlgo {
             }
         }
         return input_array;
+    }
+    public int[] merge(int[] left, int[] right){
+        int[] result = {};
+
+        ArrayFunctions obj0 = new ArrayFunctions();
+
+        while(left.length != 0 && right.length != 0){
+            if (left[0] <= right[0]){
+                result = obj0.ArrayAppend(result, left[0]);
+                left = obj0.ArraySlicer(left, 1, left.length);
+            }else{
+                result = obj0.ArrayAppend(result, right[0]);
+                right = obj0.ArraySlicer(right, 1, right.length);
+            }
+        }
+
+        while(left.length != 0){
+            result = obj0.ArrayAppend(result, left[0]);
+            left = obj0.ArraySlicer(left, 1, left.length);
+        }
+
+        while(right.length != 0){
+            result = obj0.ArrayAppend(result, right[0]);
+            right = obj0.ArraySlicer(right, 1, right.length);
+        }
+
+        return result;
+    }
+    public int[] merge_sort(int[] input_array) {
+        if (input_array.length == 1) {
+            return input_array;
+        }
+        int[] left;
+        int[] right;
+        ArrayFunctions obj0 = new ArrayFunctions();
+
+        left = obj0.ArraySlicer(input_array, 0, input_array.length/2);
+        right = obj0.ArraySlicer(input_array, input_array.length/2, input_array.length);
+
+        left = merge_sort(left);
+        right = merge_sort(right);
+
+        return merge(left, right);
     }
 }
